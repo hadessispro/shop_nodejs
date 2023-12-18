@@ -7,6 +7,8 @@ const countConnect = ()=>{
     console.log(`Number connection ${numConnection}`)
 }
 
+
+// check toàn bộ hệ thống có bao nhiêu truy cập để kiểm soát lưu lượng 
 const checkoverload = ()=>{
     setInterval(()=>{
         const numConnection = mongoose.connections.length;
@@ -14,12 +16,16 @@ const checkoverload = ()=>{
         const memoryUsage = process.memoryUsage().rss;
         const maxConnections = numCores *5;
 
-        if(maxConnections >  40){
+
+        console.log("Action connections:", numConnection);
+        console.log(`Memory use:${memoryUsage / 1024 / 1024} Mb`);
+
+        if(numCores  > maxConnections){
             console.log("Connection overload detected");
-        }
+        }   
     },_SECOND)//xem số liệu chi cập vào hệ thống
 }
 
 
 
-module.exports = {countConnect};
+module.exports = {countConnect,checkoverload};
