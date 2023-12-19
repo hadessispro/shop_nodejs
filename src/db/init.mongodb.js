@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const {countConnect} = require('../helpers/check.connect');
  // cách kết nối khuyên dùng
-const {db:{host,name,port}} =  require('../configs/config.mongodb');
+const {db:{host,name,port}}=require('../configs/config.mongodb')
 
 class Database{
 
@@ -27,7 +27,7 @@ class Database{
 
     static getInstance(){
         if(!Database.instance){
-            Database.instancence =  new Database();
+            Database.instance =  new Database();
         }
         return Database.instance
     }
