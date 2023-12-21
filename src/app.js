@@ -1,6 +1,6 @@
 // require('dotenv').config()
 const express=  require("express");
-const route =  require('./routers/index');
+
 const app = express();
 const { default:helmet } = require("helmet");
 const compression  = require('compression');
@@ -19,8 +19,7 @@ checkoverload();
 
 
 //start app
-
-route;
+app.use('',require('./routers'));
 // console.log("process",process.env)
 
 module.exports = app;
