@@ -3,3 +3,13 @@
 
 
 POST http://localhost:3055/v1/api/shop/signup HTTP/1.1
+
+Content-Type: application/json
+
+
+
+{
+    "name":"SHOP BUSINESS",
+    "email":"thaibaoinc123@gmail.com",
+    "password":"zxc123",
+}

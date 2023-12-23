@@ -1,9 +1,13 @@
-const express = require('express');
+"use strict"
+
 const shopModel = require('../models/shop.models');
 const bycrypt = require('bcrypt');
+const crypto = require('crypto');
+const KeyTokenServices = require('./keytoken.services')
+const express = require('express');
+const { createTokenPair } = require('../auth/authUtils');
 
-
-
+cd
 // định dạng mã hóa thông tin triển khai cho khách hàng cuối
 const rolesShop = {
     SHOP:"0002",
@@ -15,13 +19,7 @@ const rolesShop = {
 
 class AccessServices{
     
-    constructor(){
-
-    }
-
-
-
-    static signup =  async ()=>{
+    static signUp = async ({name,email,password})=>{
         try {
                 //check email address!
             const holdeShop = await shopModel.findOne({email}).lean();
@@ -31,12 +29,41 @@ class AccessServices{
                     message:"Shop already resgistered !",
                 }
             }
+            if(newShop){
+                const {privateKey,publicKey}  = crypto.generateKeyPairSync('rsa',{
+                    modulusLentg:4096
+                })
+                console.log({privateKey,publicKey}) //save collection key store
+                const publickeyString = new KeyTokenServices.createKey({
+                    userId:newShop._id,
+                    publickey
+                })
 
-            const passwordHash = await bycrypt.hash(password, 10);
-            const newShop = await shopModel.create({
-                name,email,password:passwordHash,roles:[rolesShop.SHOP]
-            })
-        } catch (error) {
+                if(!publickeyString){
+                    return {
+                        code:'xxxxx',
+                        message:"publicKeyString error !"
+                    }
+                }
+
+                const tokens = await createTokenPair({userId:newShop._id,email,publicKey,privateKey})
+                console.log("create success token:",tokens);
+                return{
+                    code:201,
+                    metadata:{
+                        shop:newShop,
+                        tokens
+                    }
+                }
+            }    
+
+            return {
+                code:200,
+                metadata:null
+            }
+
+        } 
+        catch (error) {
             return {
                 code:'xxxx',
                 message:error.message,
@@ -45,6 +72,4 @@ class AccessServices{
         }
     } 
 }
-
-
-module.exports = new AccessServices;
+module.exports = AccessServices;

@@ -10,7 +10,10 @@ const morgan = require("morgan");
 app.use((morgan("combined")));//thông báo tới người dev về request người dùng
 app.use(helmet());//bảo vệ cookie tránh lỗi bảo mật
 app.use(compression());//giảm thiểu tối đa dữ liệu tới người dùng
-
+app.use(express.json());
+app.use(express.urlencoded({
+    extended:true
+}))
 //init db
 require('./db/init.mongodb');
 

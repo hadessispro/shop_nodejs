@@ -6,7 +6,7 @@ const DOCUMENT_NAME = 'shop_product';
 const COLLECTION_NAME = "users"
 
 // Declare the Schema of the Mongo model
-var userSchema = new mongoose.Schema({
+var userSchema = new Schema({
     name:{
         type:String,
         required:true,
@@ -38,4 +38,4 @@ var userSchema = new mongoose.Schema({
 },{timeseriess:true,collection:COLLECTION_NAME});
 
 //Export the model
-module.exports = mongoose.model('User', userSchema);
+module.exports = model('User', userSchema);

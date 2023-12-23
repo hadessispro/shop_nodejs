@@ -3,7 +3,7 @@ const router = express.Router();
 const accessController =  require('../../controllers/accessController')
 //signup
 
-router.post('/shop/signup',accessController.signup);
+router.post('/shop/signup',accessController.signUp);
 
 
 
